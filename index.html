@@ -1,0 +1,51 @@
+<div style="text-align: center; margin-top: 2rem; font-size: 1.1rem;">
+  <div id="main-count">✔️ Challenges Completed: 0 / 10</div>
+  <div id="bonus-count">⭐ Bonus Points Earned: 0 / 3</div>
+  <div id="total-score">🏆 Total Score: 0 / 13</div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const total = 10;
+    const bonus = ['5b', '8b', '9b'];
+
+    function updateScore() {
+      let main = 0;
+      let bonusCount = 0;
+      for (let i = 0; i < total; i++) {
+        const chk = document.getElementById("chk" + i);
+        if (chk.checked) main++;
+      }
+      for (let id of bonus) {
+        const chk = document.getElementById("chk" + id);
+        if (chk && chk.checked) bonusCount++;
+      }
+      document.getElementById("main-count").textContent = `✔️ Challenges Completed: ${main} / 10`;
+      document.getElementById("bonus-count").textContent = `⭐ Bonus Points Earned: ${bonusCount} / 3`;
+      document.getElementById("total-score").textContent = `🏆 Total Score: ${main + bonusCount} / 13`;
+    }
+
+    // Attach to all checkboxes
+    for (let i = 0; i < total; i++) {
+      const chk = document.getElementById("chk" + i);
+      const saved = localStorage.getItem("pubcrawl-chk" + i);
+      if (saved === "true") chk.checked = true;
+      chk.addEventListener("change", () => {
+        localStorage.setItem("pubcrawl-chk" + i, chk.checked);
+        updateScore();
+      });
+    }
+
+    for (let id of bonus) {
+      const chk = document.getElementById("chk" + id);
+      const saved = localStorage.getItem("pubcrawl-chk" + id);
+      if (saved === "true") chk.checked = true;
+      chk.addEventListener("change", () => {
+        localStorage.setItem("pubcrawl-chk" + id, chk.checked);
+        updateScore();
+      });
+    }
+
+    updateScore(); // Initial update
+  });
+</script>
